@@ -5,42 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BITC 3RD</title>
-    <link rel="icon" type="image/png" href="/logo.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="icon" type="image/png" href="./logo.png">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background: linear-gradient(to bottom, #15201c, #090B0C);
             overflow: hidden;
         }
 
-        .container {
-            position: relative;
-            /* width: calc(1080px/2.3);
-            height: calc(1666px/2.3); */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-
-
-        .card {
-            position: relative;
-            width: calc(1080px/2.3);
-            height: calc(1666px/2.3);
+        .card-container {
             perspective: 1000px;
             cursor: pointer;
             animation: cardEntrance 1s ease-out forwards;
+            width: 100%;
+            max-width: 450px;
+            /* Giới hạn chiều rộng card */
+            padding: 12px;
+            box-sizing: border-box;
+            /* Đảm bảo padding được tính đúng */
+            margin: 0 auto;
+            /* Canh giữa */
+            background-color: transparent;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #38A675;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        .card-front {
+            background-image: url(./1.png);
+        }
+
+        .card-back {
+            background-image: url(./2.png);
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
         }
 
         @keyframes cardEntrance {
@@ -60,90 +84,41 @@
             }
         }
 
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-front,
-        .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            /* background-color: white; */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #38A675;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            background-image: url(/2.png);
-            background-size: cover;
-
-        }
-
-        .card-front {
-            background-image: url(/1.png);
-            background-size: cover;
-        }
-
-
-
-        @keyframes hintPulse {
-            0% {
-                opacity: 0.7;
+        /* Media Query cho màn hình nhỏ hơn */
+        @media (max-width: 400px) {
+            .card-container {
+                padding: 6px;
+                /* Giảm padding cho màn hình nhỏ */
+                max-width: 90%;
+                /* Giới hạn chiều rộng của card */
             }
 
-            50% {
-                opacity: 1;
+            .card-inner {
+                border-radius: 6px;
+                /* Thay đổi radius của card */
             }
-
-            100% {
-                opacity: 0.7;
-            }
-        }
-
-        /* Trạng thái */
-        .card.flipped .card-inner {
-            transform: rotateY(180deg);
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
+<body class="d-flex justify-content-center align-items-center">
 
-        <!-- Phong bì -->
-        <div class="card" id="card">
-            <div class="card-inner" id="card-inner">
-                <!-- Mặt trước thiệp -->
-                <div class="card-front">
-
-                </div>
-
-                <!-- Mặt sau thiệp -->
-                <div class="card-back">
-
-                </div>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <!-- Responsive Card -->
+        <div class="card card-container" id="card" style="width: 100%; max-width: 450px; aspect-ratio: 2/3;">
+            <div class="card-inner" id="card-inner" style="height: 100%;">
+                <div class="card-front"></div>
+                <div class="card-back"></div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS (optional, for Bootstrap components if needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const card = document.getElementById('card');
-
-            // Xử lý sự kiện khi nhấn vào thiệp
             card.addEventListener('click', function () {
                 card.classList.toggle('flipped');
             });
